@@ -30,7 +30,8 @@ public class Main extends JFrame {
         };
     }
     public void createGUI(){
-        setSize(new Dimension(75,100));
+        setSize(new Dimension(200,100));
+        setResizable(false);
         status = new JLabel((connected)?"Connected":"Not Connected");
         add(status);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
