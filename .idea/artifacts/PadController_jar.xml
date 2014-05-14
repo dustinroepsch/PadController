@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PadController:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PadController_jar</output-path>
+    <root id="archive" name="PadController.jar">
+      <element id="module-output" name="PadController" />
+    </root>
+  </artifact>
+</component>
