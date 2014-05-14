@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.ConnectException;
 import java.net.Socket;
 
 /**
@@ -29,7 +30,7 @@ public class Main extends JFrame {
         };
     }
     public void createGUI(){
-        setSize(new Dimension(500,500));
+        setSize(new Dimension(75,100));
         status = new JLabel((connected)?"Connected":"Not Connected");
         add(status);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,10 +73,18 @@ public class Main extends JFrame {
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
-            connection = new Socket(ipAddress,5050);
+            while(!connected){
+                try{
+                    connection = new Socket(ipAddress,5050);
+                    connected = true;
+                }
+                catch (ConnectException e){
+                    connected = false;
+                }
+            }
             outputStream = new ObjectOutputStream(connection.getOutputStream());
             outputStream.flush();
-            connected = true;
+
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
