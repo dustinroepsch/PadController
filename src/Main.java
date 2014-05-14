@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 
 /**
@@ -19,12 +20,6 @@ public class Main extends JFrame {
     public Main(){
         super("Control Pad");
         connected = false;
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ipAddress = JOptionPane.showInputDialog(getComponent(0),"IP address?");
-            }
-        });
         worker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
@@ -65,8 +60,17 @@ public class Main extends JFrame {
 
     private void loop() {
         try {
-            while(ipAddress == null){
-
+            try {
+                SwingUtilities.invokeAndWait(new Runnable() {
+                    @Override
+                    public void run() {
+                        ipAddress = JOptionPane.showInputDialog(getComponent(0), "IP address?");
+                    }
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
             }
             connection = new Socket(ipAddress,5050);
             outputStream = new ObjectOutputStream(connection.getOutputStream());
